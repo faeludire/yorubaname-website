@@ -2,6 +2,8 @@ package org.oruko.dictionary.model.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Embeddable;
 
@@ -11,7 +13,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class Etymology {
-
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     private String part;
     private String meaning;
@@ -39,8 +41,7 @@ public class Etymology {
         try {
             return objectMapper.writeValueAsString(this);
         } catch (JsonProcessingException e) {
-            // TODO
-            // log
+            LOG.error("Error occurred while processing JSON.", e);
         }
         return "";
     }
