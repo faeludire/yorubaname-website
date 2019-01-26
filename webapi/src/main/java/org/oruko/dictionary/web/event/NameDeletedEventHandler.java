@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Transient;
+
 /**
  * Handler for {@link NameDeletedEvent}
  * @author Dadepo Aderemi.
  */
 @Component
 public class NameDeletedEventHandler {
+    @Transient
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     // TODO should not be hardwiring a bean here

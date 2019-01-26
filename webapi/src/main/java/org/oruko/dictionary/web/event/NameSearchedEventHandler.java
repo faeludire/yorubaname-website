@@ -8,12 +8,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Transient;
+
 /**
  * Handles {@link org.oruko.dictionary.events.NameSearchedEvent}
  * Created by Dadepo Aderemi.
  */
 @Component
 public class NameSearchedEventHandler {
+    @Transient
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     private RecentSearches recentSearches;
