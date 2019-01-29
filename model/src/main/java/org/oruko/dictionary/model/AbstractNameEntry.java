@@ -6,16 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.oruko.dictionary.model.repository.Etymology;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -52,19 +43,19 @@ public abstract class AbstractNameEntry {
     @Column
     protected String ipaNotation;
 
-    @Column(length = 1000)
+    @Column(columnDefinition = "BLOB",length = 1000)
     protected String variants;
 
     @Column
     protected String syllables;
 
-    @Column(length = 5000)
+    @Column(columnDefinition = "BLOB",length = 50000)
     protected String meaning;
 
-    @Column(length = 50000)
+    @Column(columnDefinition = "BLOB",length = 50000)
     protected String extendedMeaning;
 
-    @Column(length = 1000)
+    @Column(columnDefinition = "BLOB",length = 1000)
     protected String morphology;
 
     @JoinColumn(name = "geo_location_id")

@@ -1,8 +1,10 @@
 package org.oruko.dictionary.auth;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.oruko.dictionary.auth.rest.AuthApi;
 import org.springframework.http.MediaType;
@@ -12,9 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Tests {@link AuthApi}
@@ -41,7 +41,7 @@ public class AuthApiTest {
     public void testGetAuthMetaData() throws Exception {
         when(apiUserRepository.count()).thenReturn(2L);
         mockMvc.perform(get("/v1/auth/meta"))
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                .andExpect(jsonPath("$.totalUsers",is(2)))
                .andExpect(status().isOk());
     }

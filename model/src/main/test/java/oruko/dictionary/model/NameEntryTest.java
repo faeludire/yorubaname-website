@@ -1,6 +1,8 @@
-package org.oruko.dictionary.model;
+package oruko.dictionary.model;
 
 import org.junit.Test;
+import org.oruko.dictionary.model.GeoLocation;
+import org.oruko.dictionary.model.NameEntry;
 
 import java.util.Collections;
 

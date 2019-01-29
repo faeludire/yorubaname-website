@@ -13,20 +13,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Controller for Authentication related endpoints
@@ -137,8 +129,8 @@ public class AuthApi {
      */
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long userId, Principal principal) {
-        if (userRepository.findOne(userId) != null) {
-            userRepository.delete(userId);
+        if (userRepository.findById(userId).isPresent()) {
+            userRepository.deleteById(userId);
             return new ResponseEntity<>(response("Name with Id: "+userId+" deleted"), HttpStatus.OK);
         }
         return new ResponseEntity<>(response("Delete failed: No user with Id: "+ userId), HttpStatus.BAD_REQUEST);
@@ -156,8 +148,8 @@ public class AuthApi {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long userId,
                                                           @Valid @RequestBody UpdateUserRequest updateUserRequest) {
-        final ApiUser userToUpdate = userRepository.findOne(userId);
-        if (userToUpdate != null) {
+        if (userRepository.findById(userId).isPresent()) {
+            final ApiUser userToUpdate = userRepository.findById(userId).get();
             final List<String> fieldsUpdated = updateUser(updateUserRequest, userToUpdate);
             userRepository.save(userToUpdate);
             return new ResponseEntity<>(response("User with Id: "+ userId +" has fields: " +
@@ -186,7 +178,7 @@ public class AuthApi {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiUser> getUser(@PathVariable Long userId) {
-        final ApiUser apiUser = userRepository.findOne(userId);
+        final ApiUser apiUser = userRepository.findById(userId).get();
         apiUser.setPassword("");
         return new ResponseEntity<>(apiUser, HttpStatus.OK);
     }

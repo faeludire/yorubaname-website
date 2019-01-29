@@ -9,16 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.validation.Valid;
 
 /**
  * Endpoint for interaction with suggested names
@@ -87,7 +83,7 @@ public class SuggestionApi {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Map<String, String>> deleteSuggestedName(@PathVariable Long id) {
-        SuggestedName suggestedName = suggestedNameRepository.findOne(id);
+        SuggestedName suggestedName = suggestedNameRepository.findById(id).orElse(null);
         if (suggestedName != null) {
             suggestedNameRepository.delete(suggestedName);
             return new ResponseEntity<>(response("Suggested name with " + id + " successfully deleted"),
